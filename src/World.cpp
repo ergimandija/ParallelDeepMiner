@@ -1,19 +1,19 @@
 #include "World.h"
 
-World::World(int xLimit, int yLimit, int zLimit)
+World::World()
 {
-    _fields.resize(xLimit);
+    _fields.resize(9);
 
-    for(int x=0;x<5;x++){
+    for(int z=0;z<9;z++){
 
-        _fields[x].resize(yLimit);
+        _fields[z].resize(5);
 
         for(int y=0;y<5;y++){
 
-                _fields[x][y].resize(zLimit);
+                _fields[z][y].resize(5);
 
-            for(int z=0;z<10;z++){
-                _fields[x][y][z] = std::make_unique<Field>((rand()%9)+1);
+            for(int x=0;x<5;x++){
+                _fields[z][y][x] = std::make_unique<Field>((rand()%9)+1);
             }
         }
     }

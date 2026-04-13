@@ -7,9 +7,8 @@ using namespace std;
 int main()
 {
     std::srand(std::time({}));
-    World world(5,5,10);
+    World world;
     world.showWorld();
-    IController&& controller = PlayerController();
 
     return 0;
 }

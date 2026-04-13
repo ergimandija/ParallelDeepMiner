@@ -43,13 +43,10 @@
 		<Unit filename="include/SorterRobot.h" />
 		<Unit filename="include/World.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/CommunistRobot.cpp" />
 		<Unit filename="src/Field.cpp" />
-		<Unit filename="src/GluttonRobot.cpp" />
 		<Unit filename="src/IController.cpp" />
 		<Unit filename="src/PlayerController.cpp" />
 		<Unit filename="src/Robot.cpp" />
-		<Unit filename="src/SorterRobot.cpp" />
 		<Unit filename="src/World.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

@@ -9,7 +9,7 @@
 class World
 {
     public:
-        World(int xLimit, int yLimit, int zLimit);
+        World();
         virtual ~World();
         void deleteLayer();
         void showWorld();
