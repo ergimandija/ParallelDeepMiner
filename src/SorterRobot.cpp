@@ -10,3 +10,8 @@ SorterRobot::~SorterRobot()
     //dtor
 }
 
+
+ void SorterRobot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
+
+
+ }

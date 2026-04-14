@@ -21,6 +21,7 @@ class World
         void displayPoints();
         int getAvailableLayerFields();
         RobotType selectRobot();
+        bool isEmpty();
 
 
     protected:

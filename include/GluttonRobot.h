@@ -7,7 +7,7 @@ class GluttonRobot: public Robot
     public:
         GluttonRobot(std::unique_ptr<IController> controller);
         virtual ~GluttonRobot();
-        //void dismantle() override;
+        void dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields) override;
 
     protected:
 

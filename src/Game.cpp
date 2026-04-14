@@ -19,6 +19,10 @@ void Game::start() {
         _world.executeTurn();
         system("cls");
         _world.renderWorld();
+        if(_world.isEmpty()){
+            std::cout << "Game is Finished!" << std::endl;
+            _isFinished = true;
+        }
         _world.displayPoints();
     }
 

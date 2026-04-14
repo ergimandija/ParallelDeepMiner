@@ -2,8 +2,8 @@
 
 World::World()
 {
-    _fields.resize(3);
-    for(int z=0;z<3;z++){
+    _fields.resize(2);
+    for(int z=0;z<2;z++){
         _fields[z].resize(5);
         for(int y=0;y<5;y++){
                 _fields[z][y].resize(5);
@@ -52,9 +52,9 @@ void World::renderWorld(){
                    std::cout << std::endl;
             }
     }
-    if(static_cast<int>(_fields.size() == 0){
+    if(static_cast<int>(_fields.size()) == 0){
             _isEmpty= true;
-            std::cout << "All Fields have been Mined! Game Finished!" << std::endl;
+            std::cout << "All Fields have been Mined!" << std::endl;
        }
 }
 
@@ -144,4 +144,8 @@ int World::getAvailableLayerFields(){
         }
     }
     return availableFieldCounter;
+}
+
+bool World::isEmpty(){
+        return _isEmpty;
 }

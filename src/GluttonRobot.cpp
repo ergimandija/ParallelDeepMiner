@@ -11,3 +11,7 @@ GluttonRobot::~GluttonRobot()
 }
 
 
+ void GluttonRobot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
+
+
+ }
