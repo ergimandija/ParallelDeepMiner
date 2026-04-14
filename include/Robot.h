@@ -2,6 +2,8 @@
 #define ROBOT_H
 #include "Field.h"
 #include  "IController.h"
+#include "PlayerController.h"
+#include "AIController.h"
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -14,22 +16,22 @@ enum RobotType {
 class Robot
 {
     public:
-        Robot(IController& controller);
+        Robot(std::unique_ptr<IController> controller);
         virtual ~Robot();
         void move();
-        virtual void dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields)=0;
+        virtual void dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields);
         void moveLeft();
         void moveRight();
         void moveForward();
         void moveBackward();
-        void setPosition(int x,int y,int z);
+        void setPosition(int z,int y,int x);
         int getXPosition();
         int getYPosition();
         int getZPosition();
     protected:
         int _x,_y,_z;
     private:
-        IController& _controller;
+        std::unique_ptr<IController> _controller;
 
         int _points;
         RobotType _type;

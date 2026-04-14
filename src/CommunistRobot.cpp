@@ -1,6 +1,6 @@
 #include "CommunistRobot.h"
 
-CommunistRobot::CommunistRobot(IController& controller): Robot(controller)
+CommunistRobot::CommunistRobot(std::unique_ptr<IController> controller): Robot(std::move(controller))
 {
     //ctor
 }
@@ -8,7 +8,4 @@ CommunistRobot::CommunistRobot(IController& controller): Robot(controller)
 CommunistRobot::~CommunistRobot()
 {
     //dtor
-}
-void CommunistRobot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
-        fields = fields;
 }

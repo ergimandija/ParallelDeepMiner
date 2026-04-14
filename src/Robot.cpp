@@ -1,7 +1,8 @@
 #include "Robot.h"
 
-Robot::Robot(IController& controller): _controller(controller)
+Robot::Robot(std::unique_ptr<IController> controller)
 {
+    _controller = std::move(controller);
 }
 
 Robot::~Robot()
@@ -23,28 +24,36 @@ int Robot::getZPosition(){
     return _z;
 }
 
-void Robot::setPosition(int x,int y,int z){
+void Robot::setPosition(int z,int y,int x){
     _x=x;
     _y=y;
     _z=z;
 }
 
 void Robot::moveLeft(){
+    if(_x>0){
     _x-=1;
+    }
 }
 void Robot::moveRight(){
+    if(_x<5){
     _x+=1;
+    }
 }
 void Robot::moveForward(){
+    if(_y>0){
     _y-=1;
+    }
 }
 void Robot::moveBackward(){
+    if(_y<5){
     _y+=1;
+    }
 }
 
 
 void Robot::move(){
-    switch(_controller.pickDirection()){
+    switch(_controller->pickDirection()){
     case 'w':
         this->moveForward();
         break;
@@ -58,4 +67,8 @@ void Robot::move(){
         this->moveLeft();
         break;
     }
+}
+
+void Robot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
+    fields[_z][_y][_x]->mine();
 }

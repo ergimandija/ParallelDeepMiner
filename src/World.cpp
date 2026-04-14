@@ -3,15 +3,10 @@
 World::World()
 {
     _fields.resize(9);
-
     for(int z=0;z<9;z++){
-
         _fields[z].resize(5);
-
         for(int y=0;y<5;y++){
-
                 _fields[z][y].resize(5);
-
             for(int x=0;x<5;x++){
                 _fields[z][y][x] = std::make_unique<Field>((rand()%9)+1);
             }
@@ -26,15 +21,63 @@ World::~World()
 }
 
 
-void World::showWorld(){
+void World::renderWorld(){
 
-    for(const auto& fieldList2D :  _fields){
+    for(int z=0; z< static_cast<int>(_fields.size()); z++){
             std::cout << "---------------------" << std::endl;
-            for(const auto& fieldList: fieldList2D){
-                    for(const auto& field: fieldList){
-                        std::cout << field->getValue();
+            for(int y=0; y< static_cast<int>(_fields[z].size());y++){
+                    for(int x=0; x< static_cast<int>(_fields[z][y].size()); x++){
+
+                        std::cout << _fields[z][y][x]->getValue();
                     }
                    std::cout << std::endl;
             }
     }
+}
+
+RobotType World::selectRobot(){
+        int input;
+        while(true){
+        std::cout << "Select which kind of robot you want to spawn: (0->Glutton, 1->Sorter, 2->Communist)" << std::endl;
+        std::cin >> input;
+        if(input == 0 || input == 1 || input == 2){
+            return static_cast<RobotType>(input);
+        }
+        std::cout << "Input Invalid, try Again!" << std::endl;
+        }
+
+
+}
+
+
+
+
+void World::createRobots(){
+        for(int i=0;i<2;i++){
+            switch(selectRobot()){
+            case GLUTTON:
+                _robots.push_back(std::make_unique<Robot>(std::make_unique<PlayerController>()));
+                std::cout << "creating glutton" << std::endl;
+                break;
+            case SORTER:
+                _robots.push_back(std::make_unique<Robot>(std::make_unique<PlayerController>()));
+                std::cout << "creating sorter" << std::endl;
+                break;
+            case COMMUNIST:
+                _robots.push_back(std::make_unique<Robot>(std::make_unique<PlayerController>()));
+                std::cout << "creating communist" << std::endl;
+                break;
+            }
+
+
+
+        }
+
+}
+
+void World::spawnRobots(){
+        for(const auto& robot: _robots){
+            robot->setPosition(rand()%9,rand()%5,rand()%5);
+        }
+
 }

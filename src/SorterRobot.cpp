@@ -1,6 +1,6 @@
 #include "SorterRobot.h"
 
-SorterRobot::SorterRobot(IController& controller): Robot(controller)
+SorterRobot::SorterRobot(std::unique_ptr<IController> controller): Robot(std::move(controller))
 {
     //ctor
 }
@@ -10,8 +10,3 @@ SorterRobot::~SorterRobot()
     //dtor
 }
 
-void SorterRobot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
-        std::vector<std::unique_ptr<Field>> column;
-
-
-}

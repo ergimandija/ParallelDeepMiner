@@ -1,38 +1,40 @@
 # depslib dependency file v1.0
-1776116825 source:c:\users\user\documents\oop\deepminer\main.cpp
+1776148115 source:c:\users\user\documents\oop\deepminer\main.cpp
 	<iostream>
 	<ctime>
-	"World.h"
+	"Game.h"
 	"PlayerController.h"
 
-1776116476 source:c:\users\user\documents\oop\deepminer\src\field.cpp
+1776149626 source:c:\users\user\documents\oop\deepminer\src\field.cpp
 	"Field.h"
 
-1776116476 c:\users\user\documents\oop\deepminer\include\field.h
+1776149620 c:\users\user\documents\oop\deepminer\include\field.h
 
 1776082345 source:c:\users\user\documents\oop\deepminer\src\icontroller.cpp
 	"IController.h"
 
 1776088570 c:\users\user\documents\oop\deepminer\include\icontroller.h
 
-1776116476 source:c:\users\user\documents\oop\deepminer\src\world.cpp
+1776150251 source:c:\users\user\documents\oop\deepminer\src\world.cpp
 	"World.h"
 
-1776116793 c:\users\user\documents\oop\deepminer\include\world.h
+1776150915 c:\users\user\documents\oop\deepminer\include\world.h
 	<vector>
 	<memory>
 	"Field.h"
 	"Robot.h"
 	<iostream>
 
-1776116476 c:\users\user\documents\oop\deepminer\include\robot.h
+1776151042 c:\users\user\documents\oop\deepminer\include\robot.h
 	"Field.h"
 	"IController.h"
+	"PlayerController.h"
+	"AIController.h"
 	<iostream>
 	<vector>
 	<memory>
 
-1776116476 source:c:\users\user\documents\oop\deepminer\src\robot.cpp
+1776150049 source:c:\users\user\documents\oop\deepminer\src\robot.cpp
 	"Robot.h"
 
 1776116476 source:c:\users\user\documents\oop\deepminer\src\playercontroller.cpp
@@ -42,21 +44,34 @@
 	"IController.h"
 	<iostream>
 
-1776116476 source:c:\users\user\documents\oop\deepminer\src\communistrobot.cpp
+1776149919 source:c:\users\user\documents\oop\deepminer\src\communistrobot.cpp
 	"CommunistRobot.h"
 
-1776092937 c:\users\user\documents\oop\deepminer\include\communistrobot.h
+1776149667 c:\users\user\documents\oop\deepminer\include\communistrobot.h
 	"Robot.h"
 
-1776116476 source:c:\users\user\documents\oop\deepminer\src\gluttonrobot.cpp
+1776149952 source:c:\users\user\documents\oop\deepminer\src\gluttonrobot.cpp
 	"GluttonRobot.h"
 
-1776092915 c:\users\user\documents\oop\deepminer\include\gluttonrobot.h
+1776149673 c:\users\user\documents\oop\deepminer\include\gluttonrobot.h
 	"Robot.h"
 
-1776116476 source:c:\users\user\documents\oop\deepminer\src\sorterrobot.cpp
+1776149958 source:c:\users\user\documents\oop\deepminer\src\sorterrobot.cpp
 	"SorterRobot.h"
 
-1776092930 c:\users\user\documents\oop\deepminer\include\sorterrobot.h
+1776149685 c:\users\user\documents\oop\deepminer\include\sorterrobot.h
 	"Robot.h"
+
+1776147240 c:\users\user\documents\oop\deepminer\include\game.h
+	"World.h"
+
+1776148925 source:c:\users\user\documents\oop\deepminer\src\game.cpp
+	"Game.h"
+
+1776150074 source:c:\users\user\documents\oop\deepminer\src\aicontroller.cpp
+	"AIController.h"
+	<memory>
+
+1776149634 c:\users\user\documents\oop\deepminer\include\aicontroller.h
+	"IController.h"
 

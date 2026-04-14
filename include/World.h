@@ -12,11 +12,13 @@ class World
         World();
         virtual ~World();
         void deleteLayer();
-        void showWorld();
+        void renderWorld();
         void mixPairs();
         void sortPairs();
         void executeTurn();
+        void createRobots();
         void spawnRobots();
+        RobotType selectRobot();
 
 
     protected:

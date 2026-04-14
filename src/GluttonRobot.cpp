@@ -1,6 +1,6 @@
 #include "GluttonRobot.h"
 
-GluttonRobot::GluttonRobot(IController& controller): Robot(controller)
+GluttonRobot::GluttonRobot(std::unique_ptr<IController> controller): Robot(std::move(controller))
 {
     //ctor
 }
@@ -11,6 +11,3 @@ GluttonRobot::~GluttonRobot()
 }
 
 
-void GluttonRobot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
-    fields=fields;
-}

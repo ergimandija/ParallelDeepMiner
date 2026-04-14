@@ -5,9 +5,9 @@
 class CommunistRobot: public Robot
 {
     public:
-        CommunistRobot(IController& controller);
+        CommunistRobot(std::unique_ptr<IController> controller);
         virtual ~CommunistRobot();
-        void dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields) override;
+        //void dismantle() override;
     protected:
 
     private:

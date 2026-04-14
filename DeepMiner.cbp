@@ -34,8 +34,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/AIController.h" />
 		<Unit filename="include/CommunistRobot.h" />
 		<Unit filename="include/Field.h" />
+		<Unit filename="include/Game.h" />
 		<Unit filename="include/GluttonRobot.h" />
 		<Unit filename="include/IController.h" />
 		<Unit filename="include/PlayerController.h" />
@@ -43,10 +45,15 @@
 		<Unit filename="include/SorterRobot.h" />
 		<Unit filename="include/World.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/AIController.cpp" />
+		<Unit filename="src/CommunistRobot.cpp" />
 		<Unit filename="src/Field.cpp" />
+		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/GluttonRobot.cpp" />
 		<Unit filename="src/IController.cpp" />
 		<Unit filename="src/PlayerController.cpp" />
 		<Unit filename="src/Robot.cpp" />
+		<Unit filename="src/SorterRobot.cpp" />
 		<Unit filename="src/World.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

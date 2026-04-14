@@ -5,9 +5,9 @@
 class SorterRobot: public Robot
 {
     public:
-        SorterRobot(IController& controller);
+        SorterRobot(std::unique_ptr<IController> controller);
         virtual ~SorterRobot();
-        void dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields) override;
+        //void dismantle() override;
     protected:
 
     private:
