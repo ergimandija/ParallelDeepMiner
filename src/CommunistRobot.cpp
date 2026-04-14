@@ -18,7 +18,7 @@ void CommunistRobot::dismantle(std::vector<std::vector<std::vector<std::unique_p
         _points -= blockValue;
         for(const auto& fieldList: fields[_z]){
             for(const auto& field: fieldList){
-                if(field->getValue() == blockValue){
+                if(field->getValue() == blockValue && !field->isMined()){
                     _points += blockValue;
                 }
             }

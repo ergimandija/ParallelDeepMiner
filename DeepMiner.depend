@@ -15,10 +15,10 @@
 
 1776159332 c:\users\user\documents\oop\deepminer\include\icontroller.h
 
-1776157786 source:c:\users\user\documents\oop\deepminer\src\world.cpp
+1776164001 source:c:\users\user\documents\oop\deepminer\src\world.cpp
 	"World.h"
 
-1776159656 c:\users\user\documents\oop\deepminer\include\world.h
+1776162563 c:\users\user\documents\oop\deepminer\include\world.h
 	<vector>
 	<memory>
 	"Field.h"
@@ -27,6 +27,7 @@
 	"GluttonRobot.h"
 	"CommunistRobot.h"
 	<iostream>
+	<random>
 
 1776159300 c:\users\user\documents\oop\deepminer\include\robot.h
 	"Field.h"
@@ -48,7 +49,7 @@
 	"IController.h"
 	<iostream>
 
-1776157063 source:c:\users\user\documents\oop\deepminer\src\communistrobot.cpp
+1776171632 source:c:\users\user\documents\oop\deepminer\src\communistrobot.cpp
 	"CommunistRobot.h"
 
 1776157007 c:\users\user\documents\oop\deepminer\include\communistrobot.h

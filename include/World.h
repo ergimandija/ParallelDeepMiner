@@ -8,7 +8,7 @@
 #include "GluttonRobot.h"
 #include "CommunistRobot.h"
 #include <iostream>
-
+#include <random>
 class World
 {
     public:
@@ -16,8 +16,8 @@ class World
         virtual ~World();
         void deleteLayer();
         void renderWorld();
-        void mixPairs();
-        void sortPairs();
+        void mixColumn(int y, int x);
+        void sortColumn(bool desc, int y, int x);
         void executeTurn();
         void createRobots();
         void spawnRobots();

@@ -131,6 +131,45 @@ void World::createRobots(){
 }
 
 
+void World::mixColumn(int y, int x){
+
+            std::random_device rd;
+            std::mt19937 g(rd());
+
+            std::vector<std::unique_ptr<Field>> column;
+            for (int z = 0; z < static_cast<int>(_fields.size()); z++) {
+                    column.push_back(std::move(_fields[z][y][x]));
+                }
+
+            std::shuffle(column.begin(),column.end(),g);
+
+            for (int z = 0; z < static_cast<int>(_fields.size()); z++) {
+                    _fields[z][y][x] = std::move(column[z]);
+                }
+
+
+
+}
+
+void World::sortColumn(bool desc, int y, int x){
+        std::vector<std::unique_ptr<Field>> column;
+        for (int z = 0; z < static_cast<int>(_fields.size()); z++) {
+                column.push_back(std::move(_fields[z][y][x]));
+            }
+
+        std::sort(column.begin(),column.end(),[desc](const std::unique_ptr<Field>& fieldA,const std::unique_ptr<Field>& fieldB){
+                  if(desc){
+                    return fieldA->getValue() > fieldB->getValue();
+                    } else {
+                        return fieldA->getValue() < fieldB->getValue();
+                    }
+             });
+
+        for (int z = 0; z < static_cast<int>(_fields.size()); z++) {
+                _fields[z][y][x] = std::move(column[z]);
+            }
+
+}
 
 void World::spawnRobots(){
         for(const auto& robot: _robots){
@@ -143,7 +182,25 @@ void World::executeTurn(){
         for(const auto& robot: _robots){
 
             robot->move(_fields);
+            if(robot->getPoints()%5 == 0){
+                        for(int y=0;y<static_cast<int>(_fields[0].size());y++){
+                            for(int x=0;x<static_cast<int>(_fields[0][y].size());x++){
+                                switch(rand()%3){
+                                case 0:
+                                    this->mixColumn(y,x);
+                                    break;
+                                case 1:
+                                    this->sortColumn(true,y,x);
+                                    break;
+                                case 2:
+                                    this->sortColumn(false,y,x);
+                                    break;
+                                }
 
+                            }
+                        }
+                        std::cout << "Board Mixed!" << std::endl;
+            }
         }
         if(this->getAvailableLayerFields()==0){
                 this->deleteLayer();
