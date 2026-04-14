@@ -3,6 +3,7 @@
 Robot::Robot(std::unique_ptr<IController> controller)
 {
     _controller = std::move(controller);
+    _points = 0;
 }
 
 Robot::~Robot()
@@ -36,7 +37,7 @@ void Robot::moveLeft(){
     }
 }
 void Robot::moveRight(){
-    if(_x<5){
+    if(_x<4){
     _x+=1;
     }
 }
@@ -46,13 +47,13 @@ void Robot::moveForward(){
     }
 }
 void Robot::moveBackward(){
-    if(_y<5){
+    if(_y<4){
     _y+=1;
     }
 }
 
 
-void Robot::move(){
+void Robot::move(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
     switch(_controller->pickDirection()){
     case 'w':
         this->moveForward();
@@ -67,8 +68,13 @@ void Robot::move(){
         this->moveLeft();
         break;
     }
+    this->dismantle(fields);
 }
 
 void Robot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
-    fields[_z][_y][_x]->mine();
+   _points += fields[_z][_y][_x]->mine();
+}
+
+int Robot::getPoints(){
+    return _points;
 }

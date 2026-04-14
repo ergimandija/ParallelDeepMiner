@@ -2,8 +2,8 @@
 
 World::World()
 {
-    _fields.resize(9);
-    for(int z=0;z<9;z++){
+    _fields.resize(3);
+    for(int z=0;z<3;z++){
         _fields[z].resize(5);
         for(int y=0;y<5;y++){
                 _fields[z][y].resize(5);
@@ -27,12 +27,35 @@ void World::renderWorld(){
             std::cout << "---------------------" << std::endl;
             for(int y=0; y< static_cast<int>(_fields[z].size());y++){
                     for(int x=0; x< static_cast<int>(_fields[z][y].size()); x++){
+                        bool robotHere = false;
 
-                        std::cout << _fields[z][y][x]->getValue();
+                        for (size_t i = 0; i < _robots.size(); i++) {
+                            if (_robots[i]->getZPosition() == z &&
+                                _robots[i]->getYPosition() == y &&
+                                _robots[i]->getXPosition() == x) {
+
+                                std::cout << (i == 0 ? "$" : "#");
+                                robotHere = true;
+                                break;
+                            }
+                        }
+
+                        if (!robotHere) {
+                            if (!_fields[z][y][x]->isMined()) {
+                                std::cout << _fields[z][y][x]->getValue();
+                            } else {
+                                std::cout << " ";
+                            }
+                        }
+
                     }
                    std::cout << std::endl;
             }
     }
+    if(static_cast<int>(_fields.size() == 0){
+            _isEmpty= true;
+            std::cout << "All Fields have been Mined! Game Finished!" << std::endl;
+       }
 }
 
 RobotType World::selectRobot(){
@@ -75,9 +98,50 @@ void World::createRobots(){
 
 }
 
+
+
 void World::spawnRobots(){
         for(const auto& robot: _robots){
-            robot->setPosition(rand()%9,rand()%5,rand()%5);
+            robot->setPosition(0,rand()%5,rand()%5);
         }
 
+}
+
+void World::executeTurn(){
+        for(const auto& robot: _robots){
+
+            robot->move(_fields);
+
+        }
+        if(this->getAvailableLayerFields()==0){
+                this->deleteLayer();
+            }
+}
+
+void World::deleteLayer(){
+
+            _fields.erase(_fields.begin());
+
+
+
+
+}
+void World::displayPoints(){
+    int counter=1;
+        for(const auto& robot: _robots){
+            std::cout <<"robot "<< counter << ": " << robot->getPoints() << std::endl;
+            counter++;
+        }
+}
+
+int World::getAvailableLayerFields(){
+    int availableFieldCounter=0;
+    for(const auto& rows: _fields[0]){
+        for(const auto& field: rows){
+            if(!field->isMined()){
+                availableFieldCounter++;
+            }
+        }
+    }
+    return availableFieldCounter;
 }

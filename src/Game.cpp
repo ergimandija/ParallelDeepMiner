@@ -2,7 +2,7 @@
 
 Game::Game(): _world()
 {
-
+    _isFinished = false;
 }
 
 Game::~Game()
@@ -14,6 +14,15 @@ void Game::start() {
     _world.createRobots();
     _world.spawnRobots();
     _world.renderWorld();
+    while(!_isFinished){
+
+        _world.executeTurn();
+        system("cls");
+        _world.renderWorld();
+        _world.displayPoints();
+    }
+
 
 
 }
+

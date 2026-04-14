@@ -18,7 +18,7 @@ class Robot
     public:
         Robot(std::unique_ptr<IController> controller);
         virtual ~Robot();
-        void move();
+        void move(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields);
         virtual void dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields);
         void moveLeft();
         void moveRight();
@@ -28,6 +28,7 @@ class Robot
         int getXPosition();
         int getYPosition();
         int getZPosition();
+        int getPoints();
     protected:
         int _x,_y,_z;
     private:

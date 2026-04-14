@@ -9,10 +9,12 @@ class Game
         virtual ~Game();
         void start();
 
+
     protected:
 
     private:
         World _world;
+        bool _isFinished;
 };
 
 #endif // GAME_H

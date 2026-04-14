@@ -18,6 +18,8 @@ class World
         void executeTurn();
         void createRobots();
         void spawnRobots();
+        void displayPoints();
+        int getAvailableLayerFields();
         RobotType selectRobot();
 
 
@@ -25,7 +27,7 @@ class World
 
     private:
         std::vector<std::vector<std::vector<std::unique_ptr<Field>>>> _fields;
-        bool _isFinished;
+        bool _isEmpty;
         std::vector<std::unique_ptr<Robot>> _robots;
 
 };
