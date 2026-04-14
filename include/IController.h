@@ -1,7 +1,9 @@
 #ifndef ICONTROLLER_H
 #define ICONTROLLER_H
 
-
+enum ControllerType {
+    AI, PLAYER
+};
 class IController
 {
     public:

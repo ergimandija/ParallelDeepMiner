@@ -4,6 +4,9 @@
 #include <memory>
 #include "Field.h"
 #include "Robot.h"
+#include "SorterRobot.h"
+#include "GluttonRobot.h"
+#include "CommunistRobot.h"
 #include <iostream>
 
 class World
@@ -21,6 +24,7 @@ class World
         void displayPoints();
         int getAvailableLayerFields();
         RobotType selectRobot();
+        ControllerType selectController();
         bool isEmpty();
 
 

@@ -17,7 +17,7 @@ void Game::start() {
     while(!_isFinished){
 
         _world.executeTurn();
-        system("cls");
+        //system("cls");
         _world.renderWorld();
         if(_world.isEmpty()){
             std::cout << "Game is Finished!" << std::endl;

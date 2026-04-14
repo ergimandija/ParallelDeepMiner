@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 enum RobotType {
     GLUTTON, SORTER, COMMUNIST
@@ -31,10 +32,11 @@ class Robot
         int getPoints();
     protected:
         int _x,_y,_z;
+         int _points;
     private:
         std::unique_ptr<IController> _controller;
 
-        int _points;
+
         RobotType _type;
 
 };

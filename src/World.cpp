@@ -2,8 +2,8 @@
 
 World::World()
 {
-    _fields.resize(2);
-    for(int z=0;z<2;z++){
+    _fields.resize(3);
+    for(int z=0;z<3;z++){
         _fields[z].resize(5);
         for(int y=0;y<5;y++){
                 _fields[z][y].resize(5);
@@ -72,24 +72,56 @@ RobotType World::selectRobot(){
 
 }
 
+ControllerType World::selectController(){
+        int input;
+        while(true){
+        std::cout << "Select the robot's controller: (0->AI, 1->Player)" << std::endl;
+        std::cin >> input;
+        if(input == 0 || input == 1){
+            return static_cast<ControllerType>(input);
+        }
+        std::cout << "Input Invalid, try Again!" << std::endl;
+        }
+
+}
 
 
 
 void World::createRobots(){
         for(int i=0;i<2;i++){
-            switch(selectRobot()){
-            case GLUTTON:
-                _robots.push_back(std::make_unique<Robot>(std::make_unique<PlayerController>()));
-                std::cout << "creating glutton" << std::endl;
-                break;
-            case SORTER:
-                _robots.push_back(std::make_unique<Robot>(std::make_unique<PlayerController>()));
-                std::cout << "creating sorter" << std::endl;
-                break;
-            case COMMUNIST:
-                _robots.push_back(std::make_unique<Robot>(std::make_unique<PlayerController>()));
-                std::cout << "creating communist" << std::endl;
-                break;
+            switch(selectController()){
+                case AI:
+                        switch(selectRobot()){
+                        case GLUTTON:
+                            _robots.push_back(std::make_unique<GluttonRobot>(std::make_unique<AIController>()));
+                            std::cout << "creating glutton" << std::endl;
+                            break;
+                        case SORTER:
+                            _robots.push_back(std::make_unique<SorterRobot>(std::make_unique<AIController>()));
+                            std::cout << "creating sorter" << std::endl;
+                            break;
+                        case COMMUNIST:
+                            _robots.push_back(std::make_unique<CommunistRobot>(std::make_unique<AIController>()));
+                            std::cout << "you just created a communist :/" << std::endl;
+                            break;
+                        }
+                        break;
+                case PLAYER:
+                        switch(selectRobot()){
+                        case GLUTTON:
+                            _robots.push_back(std::make_unique<GluttonRobot>(std::make_unique<PlayerController>()));
+                            std::cout << "creating glutton" << std::endl;
+                            break;
+                        case SORTER:
+                            _robots.push_back(std::make_unique<SorterRobot>(std::make_unique<PlayerController>()));
+                            std::cout << "creating sorter" << std::endl;
+                            break;
+                        case COMMUNIST:
+                            _robots.push_back(std::make_unique<CommunistRobot>(std::make_unique<PlayerController>()));
+                            std::cout << "you just created a communist :/" << std::endl;
+                            break;
+                        }
+                        break;
             }
 
 
