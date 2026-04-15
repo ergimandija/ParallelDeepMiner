@@ -13,7 +13,7 @@ AIController::~AIController()
 
 
 char AIController::pickDirection(){
-    int randomValue = rand()%4;
+    int randomValue = rand()%5;
     switch(randomValue){
     case 0:
         return 'w';
@@ -24,8 +24,11 @@ char AIController::pickDirection(){
     case 2:
          return 'd';
          break;
-    default:
+    case 3:
          return 'a';
+         break;
+    default:
+         return '.';
          break;
     }
 

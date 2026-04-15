@@ -2,61 +2,69 @@
 
 World::World()
 {
-    _fields.resize(3);
-    for(int z=0;z<3;z++){
-        _fields[z].resize(5);
-        for(int y=0;y<5;y++){
-                _fields[z][y].resize(5);
-            for(int x=0;x<5;x++){
-                _fields[z][y][x] = std::make_unique<Field>((rand()%9)+1);
+    _fields.resize(5);
+    for (int y = 0; y < 5; y++) {
+        _fields[y].resize(5);
+        for (int x = 0; x < 5; x++) {
+            for (int z = 0; z < 10; z++) {
+
+                _fields[y][x].push_back(std::make_unique<Field>(rand() % 9 + 1));
             }
         }
     }
-
 }
+
+
 
 World::~World()
 {
     //dtor
 }
 
+int World::getMaxHeight(){
+    int maxHeight = 0;
+    for(int y=0; y<5;y++){
+        for(int x=0; x<5;x++){
+            maxHeight = std::max(maxHeight, static_cast<int>(_fields[y][x].size()));
+        }
+    }
+    return maxHeight;
+
+}
 
 void World::renderWorld(){
+    int maxHeight = this->getMaxHeight();
+    for(int z=maxHeight-1;z>=0;z--){
+       std::cout << "---------------------------------" <<  std::endl;
+        for(int x=0;x<5;x++){
+            for(int y=0;y<5;y++){
+                bool robotHere = false;
 
-    for(int z=0; z< static_cast<int>(_fields.size()); z++){
-            std::cout << "---------------------" << std::endl;
-            for(int y=0; y< static_cast<int>(_fields[z].size());y++){
-                    for(int x=0; x< static_cast<int>(_fields[z][y].size()); x++){
-                        bool robotHere = false;
+                for(size_t i=0;i< _robots.size();i++){
+                     const auto& robot = _robots[i];
+                    if(robot->getXPosition() == x &&
+                       robot->getYPosition() == y &&
+                       robot->getZPosition() == z){
 
-                        for (size_t i = 0; i < _robots.size(); i++) {
-                            if (_robots[i]->getZPosition() == z &&
-                                _robots[i]->getYPosition() == y &&
-                                _robots[i]->getXPosition() == x) {
+                        std::cout << (i==0? "$" : "#");
+                        robotHere = true;
+                       }
+                }
+                if(!robotHere){
+                if(z < static_cast<int>(_fields[y][x].size())){
+                        std::cout <<  _fields[y][x][z]->getValue();
+                } else {
+                        std::cout << " ";
+                }
+                }
 
-                                std::cout << (i == 0 ? "$" : "#");
-                                robotHere = true;
-                                break;
-                            }
-                        }
-
-                        if (!robotHere) {
-                            if (!_fields[z][y][x]->isMined()) {
-                                std::cout << _fields[z][y][x]->getValue();
-                            } else {
-                                std::cout << " ";
-                            }
-                        }
-
-                    }
-                   std::cout << std::endl;
             }
+            std::cout << std::endl;
+        }
+        std::cout <<  std::endl;
     }
-    if(static_cast<int>(_fields.size()) == 0){
-            _isEmpty= true;
-            std::cout << "All Fields have been Mined!" << std::endl;
-       }
 }
+
 
 RobotType World::selectRobot(){
         int input;
@@ -131,49 +139,37 @@ void World::createRobots(){
 }
 
 
-void World::mixColumn(int y, int x){
 
-            std::random_device rd;
-            std::mt19937 g(rd());
-
-            std::vector<std::unique_ptr<Field>> column;
-            for (int z = 0; z < static_cast<int>(_fields.size()); z++) {
-                    column.push_back(std::move(_fields[z][y][x]));
-                }
-
-            std::shuffle(column.begin(),column.end(),g);
-
-            for (int z = 0; z < static_cast<int>(_fields.size()); z++) {
-                    _fields[z][y][x] = std::move(column[z]);
-                }
-
-
-
-}
 
 void World::sortColumn(bool desc, int y, int x){
-        std::vector<std::unique_ptr<Field>> column;
-        for (int z = 0; z < static_cast<int>(_fields.size()); z++) {
-                column.push_back(std::move(_fields[z][y][x]));
-            }
 
-        std::sort(column.begin(),column.end(),[desc](const std::unique_ptr<Field>& fieldA,const std::unique_ptr<Field>& fieldB){
-                  if(desc){
-                    return fieldA->getValue() > fieldB->getValue();
-                    } else {
-                        return fieldA->getValue() < fieldB->getValue();
-                    }
-             });
+                if(!_fields[y][x].empty()){
+                    std::sort(_fields[y][x].begin(),_fields[y][x].end(),[desc](std::unique_ptr<Field>& fieldA,std::unique_ptr<Field>& fieldB){
+                                    if(desc){
+                                    return fieldA->getValue() < fieldB->getValue();
+                                    } else {
+                                    return fieldA->getValue() > fieldB->getValue();
+                                    }
+                      });
+                }
 
-        for (int z = 0; z < static_cast<int>(_fields.size()); z++) {
-                _fields[z][y][x] = std::move(column[z]);
-            }
+
 
 }
 
+
+void World::mixColumn(int y, int x){
+    if(!_fields[y][x].empty()){
+        std::shuffle(_fields[y][x].begin(), _fields[y][x].end(),
+                     std::mt19937{std::random_device{}()});
+    }
+}
 void World::spawnRobots(){
         for(const auto& robot: _robots){
-            robot->setPosition(0,rand()%5,rand()%5);
+                int y=rand()%5;
+                int x=rand()%5;
+            robot->setPosition(_fields,y,x);
+            _fields[y][x].pop_back();
         }
 
 }
@@ -182,39 +178,33 @@ void World::executeTurn(){
         for(const auto& robot: _robots){
 
             robot->move(_fields);
-            if(robot->getPoints()%5 == 0){
-                        for(int y=0;y<static_cast<int>(_fields[0].size());y++){
-                            for(int x=0;x<static_cast<int>(_fields[0][y].size());x++){
-                                switch(rand()%3){
-                                case 0:
-                                    this->mixColumn(y,x);
-                                    break;
-                                case 1:
-                                    this->sortColumn(true,y,x);
-                                    break;
-                                case 2:
-                                    this->sortColumn(false,y,x);
-                                    break;
-                                }
+            robot->dismantle(_fields);
+            if (robot->getPoints() % 50 == 0) {
 
-                            }
+                for (int y = 0; y < 5; y++) {
+                    for (int x = 0; x < 5; x++) {
+                        switch (rand() % 3) {
+                            case 0:
+                                this->mixColumn(y, x);
+                                break;
+
+                            case 1:
+                                this->sortColumn(false, y, x);
+                                break;
+
+                            case 2:
+                                this->sortColumn(true, y, x);
+                                break;
                         }
-                        std::cout << "Board Mixed!" << std::endl;
+                    }
+                }
+            std::cout << "Board shuffled" << std::endl;
             }
         }
-        if(this->getAvailableLayerFields()==0){
-                this->deleteLayer();
-            }
-}
-
-void World::deleteLayer(){
-
-            _fields.erase(_fields.begin());
-
-
-
 
 }
+
+
 void World::displayPoints(){
     int counter=1;
         for(const auto& robot: _robots){
@@ -223,18 +213,15 @@ void World::displayPoints(){
         }
 }
 
-int World::getAvailableLayerFields(){
-    int availableFieldCounter=0;
-    for(const auto& rows: _fields[0]){
-        for(const auto& field: rows){
-            if(!field->isMined()){
-                availableFieldCounter++;
+
+
+bool World::isEmpty() {
+    for (const auto& plane : _fields) {
+        for (const auto& column : plane) {
+            if (!column.empty()) {
+                return false;
             }
         }
     }
-    return availableFieldCounter;
-}
-
-bool World::isEmpty(){
-        return _isEmpty;
+    return true;
 }

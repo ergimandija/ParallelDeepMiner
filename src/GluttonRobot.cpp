@@ -12,9 +12,19 @@ GluttonRobot::~GluttonRobot()
 
 
 void GluttonRobot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
-    _points += fields[_z][_y][_x]->mine();
-    for(int i = 1; i <= 2 && _z + i < static_cast<int>(fields.size()); i++){
-        _points += fields[_z + i][_y][_x]->getValue();
+    if(fields[_y][_x].empty()) return;
+    _z = static_cast<int>(fields[_y][_x].size()) - 1;
+
+    int range = std::min(3,static_cast<int>(fields[_y][_x].size()));
+    int sum = 0;
+
+    if(range > 0){
+    _points += fields[_y][_x][_z]->getValue();
+    sum = std::accumulate(fields[_y][_x].rbegin()+1, fields[_y][_x].rbegin()+ range,0, [](int acc, const std::unique_ptr<Field>& f) {
+        return acc + f->getValue();
+    });
+    _points +=sum;
+    fields[_y][_x].pop_back();
     }
 
 }

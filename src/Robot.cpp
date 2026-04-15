@@ -4,6 +4,7 @@ Robot::Robot(std::unique_ptr<IController> controller)
 {
     _controller = std::move(controller);
     _points = 0;
+    _canDismantle = true;
 }
 
 Robot::~Robot()
@@ -11,6 +12,14 @@ Robot::~Robot()
     //dtor
 }
 
+bool Robot::getStatus(){
+    return _canDismantle;
+}
+
+void Robot::setStatus(bool canDismantle){
+    _canDismantle = canDismantle;
+
+}
 
 int Robot::getXPosition(){
     return _x;
@@ -25,35 +34,43 @@ int Robot::getZPosition(){
     return _z;
 }
 
-void Robot::setPosition(int z,int y,int x){
+
+
+void Robot::setPosition(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields,int y,int x){
     _x=x;
     _y=y;
-    _z=z;
+    if (fields[y][x].empty()) {
+        _z = 0;
+    } else {
+        _z=static_cast<int>(fields[y][x].size()-1);
+    }
+
 }
 
 void Robot::moveLeft(){
-    if(_x>0){
-    _x-=1;
-    }
-}
-void Robot::moveRight(){
-    if(_x<4){
-    _x+=1;
-    }
-}
-void Robot::moveForward(){
     if(_y>0){
     _y-=1;
     }
 }
-void Robot::moveBackward(){
+void Robot::moveRight(){
     if(_y<4){
     _y+=1;
+    }
+}
+void Robot::moveForward(){
+    if(_x>0){
+    _x-=1;
+    }
+}
+void Robot::moveBackward(){
+    if(_x<4){
+    _x+=1;
     }
 }
 
 
 void Robot::move(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
+
     switch(_controller->pickDirection()){
     case 'w':
         this->moveForward();
@@ -67,13 +84,16 @@ void Robot::move(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& 
     case 'a':
         this->moveLeft();
         break;
+    case '.':
+        break;
+
     }
-    this->dismantle(fields);
+
+     int colSize = static_cast<int>(fields[_y][_x].size());
+    _z = (colSize > 0) ? colSize - 1 : 0;
 }
 
-void Robot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
-   _points += fields[_z][_y][_x]->mine();
-}
+
 
 int Robot::getPoints(){
     return _points;

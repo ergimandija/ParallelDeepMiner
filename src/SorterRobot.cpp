@@ -12,18 +12,15 @@ SorterRobot::~SorterRobot()
 
 
 void SorterRobot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
-        std::vector<std::unique_ptr<Field>> column;
-        for (int z = 0; z < static_cast<int>(fields.size()); z++) {
-                column.push_back(std::move(fields[z][_y][_x]));
-            }
 
-        std::sort(column.begin(),column.end(),[](const std::unique_ptr<Field>& fieldA,const std::unique_ptr<Field>& fieldB){
-                    return fieldA->getValue() > fieldB->getValue();
-             });
+          if(fields[_y][_x].empty()) return;
+          _z = static_cast<int>(fields[_y][_x].size()) - 1;
 
-        for (int z = 0; z < static_cast<int>(fields.size()); z++) {
-                fields[z][_y][_x] = std::move(column[z]);
-            }
-        _points += fields[_z][_y][_x]->mine();
+         std::sort(fields[_y][_x].begin(),fields[_y][_x].end(),[](std::unique_ptr<Field>& fieldA,std::unique_ptr<Field>& fieldB){
+                                    return fieldA->getValue() < fieldB->getValue();
+                      });
+         _points += fields[_y][_x][_z]->getValue();
+         fields[_y][_x].pop_back();
+
 
 }

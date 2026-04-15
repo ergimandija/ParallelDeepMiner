@@ -1,6 +1,7 @@
 #ifndef WORLD_H
 #define WORLD_H
 #include <vector>
+#include <random>
 #include <memory>
 #include "Field.h"
 #include "Robot.h"
@@ -8,21 +9,22 @@
 #include "GluttonRobot.h"
 #include "CommunistRobot.h"
 #include <iostream>
-#include <random>
+#include <algorithm>
+
+
 class World
 {
     public:
         World();
         virtual ~World();
-        void deleteLayer();
         void renderWorld();
         void mixColumn(int y, int x);
+        int getMaxHeight();
         void sortColumn(bool desc, int y, int x);
         void executeTurn();
         void createRobots();
         void spawnRobots();
         void displayPoints();
-        int getAvailableLayerFields();
         RobotType selectRobot();
         ControllerType selectController();
         bool isEmpty();
@@ -32,7 +34,6 @@ class World
 
     private:
         std::vector<std::vector<std::vector<std::unique_ptr<Field>>>> _fields;
-        bool _isEmpty;
         std::vector<std::unique_ptr<Robot>> _robots;
 
 };

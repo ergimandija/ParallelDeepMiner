@@ -12,16 +12,17 @@ CommunistRobot::~CommunistRobot()
 
 
 void CommunistRobot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
-        _points += fields[_z][_y][_x]->mine();
-        int blockValue = fields[_z][_y][_x]->getValue();
-        // um self counting zu vermeiden
-        _points -= blockValue;
-        for(const auto& fieldList: fields[_z]){
-            for(const auto& field: fieldList){
-                if(field->getValue() == blockValue && !field->isMined()){
-                    _points += blockValue;
-                }
-            }
+        if(fields[_y][_x].empty()) return;
+        _z = static_cast<int>(fields[_y][_x].size()) - 1;
+
+
+        _points += fields[_y][_x][_z]->getValue();
+        auto it = std::find_if(fields[_y][_x].rbegin() + 1, fields[_y][_x].rend(), [&fields,this](const std::unique_ptr<Field>& fieldA){
+                                                        return fieldA->getValue() == fields[_y][_x][_z]->getValue();
+                                                });
+        if (it != fields[_y][_x].rend()) {
+            _points += (*it)->getValue();
         }
+        fields[_y][_x].pop_back();
 
 }
