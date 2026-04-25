@@ -13,7 +13,7 @@ GluttonRobot::~GluttonRobot()
 
 void GluttonRobot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
     if(fields[_y][_x].empty()) return;
-    _z = static_cast<int>(fields[_y][_x].size()) - 1;
+    //_z = static_cast<int>(fields[_y][_x].size()) - 1;
 
     int range = std::min(3,static_cast<int>(fields[_y][_x].size()));
     int sum = 0;

@@ -4,7 +4,7 @@ Robot::Robot(std::unique_ptr<IController> controller)
 {
     _controller = std::move(controller);
     _points = 0;
-    _canDismantle = true;
+    //_canDismantle = true;
 }
 
 Robot::~Robot()

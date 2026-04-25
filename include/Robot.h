@@ -39,7 +39,6 @@ class Robot
          int _points;
     private:
         std::unique_ptr<IController> _controller;
-        RobotType _type;
         bool _canDismantle;
 
 };
