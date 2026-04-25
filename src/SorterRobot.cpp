@@ -1,6 +1,6 @@
 #include "SorterRobot.h"
 
-SorterRobot::SorterRobot(std::unique_ptr<IController> controller): Robot(std::move(controller))
+SorterRobot::SorterRobot(std::unique_ptr<IController> controller, int xBorder, int yBorder): Robot(std::move(controller), xBorder, yBorder)
 {
     //ctor
 }

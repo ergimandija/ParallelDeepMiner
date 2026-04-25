@@ -6,6 +6,7 @@ using namespace std;
 
 int main()
 {
+
     std::srand(std::time({}));
     Game game;
     game.start();

@@ -16,23 +16,25 @@ class World
 {
     public:
         World();
+        World(int ySize, int xSize);
         virtual ~World();
         void renderWorld();
-        void mixColumn(int y, int x);
         int getMaxHeight();
-        void sortColumn(bool desc, int y, int x);
         void executeTurn();
         void createRobots();
         void spawnRobots();
         void displayPoints();
         RobotType selectRobot();
-        ControllerType selectController();
         bool isEmpty();
+        int getMaxRobotHeight();
 
 
     protected:
 
     private:
+        int _ySize;
+        int _xSize;
+        int _sum;
         std::vector<std::vector<std::vector<std::unique_ptr<Field>>>> _fields;
         std::vector<std::unique_ptr<Robot>> _robots;
 

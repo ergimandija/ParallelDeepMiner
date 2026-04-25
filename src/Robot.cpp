@@ -1,7 +1,9 @@
 #include "Robot.h"
 
-Robot::Robot(std::unique_ptr<IController> controller)
+Robot::Robot(std::unique_ptr<IController> controller, int xBorder, int yBorder)
 {
+    _xBorder = xBorder;
+    _yBorder  = yBorder;
     _controller = std::move(controller);
     _points = 0;
     //_canDismantle = true;
@@ -12,14 +14,6 @@ Robot::~Robot()
     //dtor
 }
 
-bool Robot::getStatus(){
-    return _canDismantle;
-}
-
-void Robot::setStatus(bool canDismantle){
-    _canDismantle = canDismantle;
-
-}
 
 int Robot::getXPosition(){
     return _x;
@@ -53,7 +47,7 @@ void Robot::moveLeft(){
     }
 }
 void Robot::moveRight(){
-    if(_y<4){
+    if(_y<_yBorder-1){
     _y+=1;
     }
 }
@@ -63,7 +57,7 @@ void Robot::moveForward(){
     }
 }
 void Robot::moveBackward(){
-    if(_x<4){
+    if(_x<_xBorder-1){
     _x+=1;
     }
 }
@@ -73,18 +67,23 @@ void Robot::move(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& 
 
     switch(_controller->pickDirection()){
     case 'w':
+        std::cout << "Moving Forward" << std::endl;
         this->moveForward();
         break;
     case 's':
+        std::cout << "Moving Backwards" << std::endl;
         this->moveBackward();
         break;
     case 'd':
+        std::cout << "Moving Right" << std::endl;
         this->moveRight();
         break;
     case 'a':
+        std::cout << "Moving Left" << std::endl;
         this->moveLeft();
         break;
     case '.':
+        std::cout << "Not Moving" << std::endl;
         break;
 
     }

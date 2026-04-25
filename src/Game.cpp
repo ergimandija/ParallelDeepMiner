@@ -1,7 +1,8 @@
 #include "Game.h"
 
-Game::Game(): _world()
+Game::Game()
 {
+
     _isFinished = false;
 }
 

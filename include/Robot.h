@@ -18,7 +18,7 @@ enum RobotType {
 class Robot
 {
     public:
-        Robot(std::unique_ptr<IController> controller);
+        Robot(std::unique_ptr<IController> controller,int xBorder,int yBorder);
         virtual ~Robot();
         void move(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields);
         virtual void dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields)=0;
@@ -32,14 +32,15 @@ class Robot
         int getYPosition();
         int getZPosition();
         int getPoints();
-        bool getStatus();
-        void setStatus(bool canDismantle);
+
     protected:
+
         int _x,_y,_z;
          int _points;
     private:
+        int _xBorder, _yBorder;
         std::unique_ptr<IController> _controller;
-        bool _canDismantle;
+
 
 };
 

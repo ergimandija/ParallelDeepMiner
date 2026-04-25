@@ -1,17 +1,28 @@
 #include "World.h"
 
+
 World::World()
 {
-    _fields.resize(5);
-    for (int y = 0; y < 5; y++) {
-        _fields[y].resize(5);
-        for (int x = 0; x < 5; x++) {
-            for (int z = 0; z < 10; z++) {
 
-                _fields[y][x].push_back(std::make_unique<Field>(rand() % 9 + 1));
+    std::cout << "Give in  y-size of the world" << std::endl;
+    std::cin  >> _ySize;
+    std::cout << "Give in  x-size of the world" << std::endl;
+    std::cin  >> _xSize;
+
+    _sum = 0;
+
+    _fields.resize(_ySize);
+    for (int y = 0; y < _ySize; y++) {
+        _fields[y].resize(_xSize);
+        for (int x = 0; x < _xSize; x++) {
+            for (int z = 0; z < 5; z++) {
+                int fieldValue =  rand() % 9 + 1;
+                _sum += fieldValue;
+                _fields[y][x].push_back(std::make_unique<Field>(fieldValue));
             }
         }
     }
+    std::cout << "Total sum of mineable values:" << _sum << std::endl;
 }
 
 
@@ -23,8 +34,8 @@ World::~World()
 
 int World::getMaxHeight(){
     int maxHeight = 0;
-    for(int y=0; y<5;y++){
-        for(int x=0; x<5;x++){
+    for(int y=0; y<_ySize;y++){
+        for(int x=0; x<_xSize;x++){
             maxHeight = std::max(maxHeight, static_cast<int>(_fields[y][x].size()));
         }
     }
@@ -32,12 +43,25 @@ int World::getMaxHeight(){
 
 }
 
+
+int World::getMaxRobotHeight(){
+    int maxZ = 0;
+    for(auto& robot : _robots){
+            if(robot->getZPosition() > maxZ){
+                maxZ = robot->getZPosition();
+            }
+    }
+    return maxZ;
+}
+
 void World::renderWorld(){
     int maxHeight = this->getMaxHeight();
-    for(int z=maxHeight-1;z>=0;z--){
+    int maxRobotHeight  =  this->getMaxRobotHeight();
+    int height = (maxRobotHeight>maxHeight-1)? maxRobotHeight: maxHeight-1;
+    for(int z=height;z>=0;z--){
        std::cout << "---------------------------------" <<  std::endl;
-        for(int x=0;x<5;x++){
-            for(int y=0;y<5;y++){
+        for(int x=0;x<_xSize;x++){
+            for(int y=0;y<_ySize;y++){
                 bool robotHere = false;
 
                 for(size_t i=0;i< _robots.size();i++){
@@ -80,90 +104,33 @@ RobotType World::selectRobot(){
 
 }
 
-ControllerType World::selectController(){
-        int input;
-        while(true){
-        std::cout << "Select the robot's controller: (0->AI, 1->Player)" << std::endl;
-        std::cin >> input;
-        if(input == 0 || input == 1){
-            return static_cast<ControllerType>(input);
-        }
-        std::cout << "Input Invalid, try Again!" << std::endl;
-        }
-
-}
-
 
 
 void World::createRobots(){
         for(int i=0;i<2;i++){
-            switch(selectController()){
-                case AI:
+                    std::unique_ptr<IController> controller = std::make_unique<AIController>();
                         switch(selectRobot()){
                         case GLUTTON:
-                            _robots.push_back(std::make_unique<GluttonRobot>(std::make_unique<AIController>()));
+                            _robots.push_back(std::make_unique<GluttonRobot>(std::move(controller),_xSize,_ySize));
                             std::cout << "creating glutton" << std::endl;
                             break;
                         case SORTER:
-                            _robots.push_back(std::make_unique<SorterRobot>(std::make_unique<AIController>()));
+                            _robots.push_back(std::make_unique<SorterRobot>(std::move(controller),_xSize,_ySize));
                             std::cout << "creating sorter" << std::endl;
                             break;
                         case COMMUNIST:
-                            _robots.push_back(std::make_unique<CommunistRobot>(std::make_unique<AIController>()));
+                            _robots.push_back(std::make_unique<CommunistRobot>(std::move(controller),_xSize,_ySize));
                             std::cout << "you just created a communist :/" << std::endl;
                             break;
                         }
-                        break;
-                case PLAYER:
-                        switch(selectRobot()){
-                        case GLUTTON:
-                            _robots.push_back(std::make_unique<GluttonRobot>(std::make_unique<PlayerController>()));
-                            std::cout << "creating glutton" << std::endl;
-                            break;
-                        case SORTER:
-                            _robots.push_back(std::make_unique<SorterRobot>(std::make_unique<PlayerController>()));
-                            std::cout << "creating sorter" << std::endl;
-                            break;
-                        case COMMUNIST:
-                            _robots.push_back(std::make_unique<CommunistRobot>(std::make_unique<PlayerController>()));
-                            std::cout << "you just created a communist :/" << std::endl;
-                            break;
-                        }
-                        break;
+
             }
-
-
-
         }
 
-}
 
 
 
 
-void World::sortColumn(bool desc, int y, int x){
-
-                if(!_fields[y][x].empty()){
-                    std::sort(_fields[y][x].begin(),_fields[y][x].end(),[desc](std::unique_ptr<Field>& fieldA,std::unique_ptr<Field>& fieldB){
-                                    if(desc){
-                                    return fieldA->getValue() < fieldB->getValue();
-                                    } else {
-                                    return fieldA->getValue() > fieldB->getValue();
-                                    }
-                      });
-                }
-
-
-
-}
-
-
-void World::mixColumn(int y, int x){
-    if(!_fields[y][x].empty()){
-        std::shuffle(_fields[y][x].begin(), _fields[y][x].end(),
-                     std::mt19937{std::random_device{}()});
-    }
-}
 void World::spawnRobots(){
         for(const auto& robot: _robots){
                 int y=rand()%5;
@@ -179,27 +146,7 @@ void World::executeTurn(){
 
             robot->move(_fields);
             robot->dismantle(_fields);
-            if (robot->getPoints() % 50 == 0) {
 
-                for (int y = 0; y < 5; y++) {
-                    for (int x = 0; x < 5; x++) {
-                        switch (rand() % 3) {
-                            case 0:
-                                this->mixColumn(y, x);
-                                break;
-
-                            case 1:
-                                this->sortColumn(false, y, x);
-                                break;
-
-                            case 2:
-                                this->sortColumn(true, y, x);
-                                break;
-                        }
-                    }
-                }
-            std::cout << "Board shuffled" << std::endl;
-            }
         }
 
 }
