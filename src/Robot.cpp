@@ -67,23 +67,18 @@ void Robot::move(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& 
 
     switch(_controller->pickDirection()){
     case 'w':
-        std::cout << "Moving Forward" << std::endl;
         this->moveForward();
         break;
     case 's':
-        std::cout << "Moving Backwards" << std::endl;
         this->moveBackward();
         break;
     case 'd':
-        std::cout << "Moving Right" << std::endl;
         this->moveRight();
         break;
     case 'a':
-        std::cout << "Moving Left" << std::endl;
         this->moveLeft();
         break;
     case '.':
-        std::cout << "Not Moving" << std::endl;
         break;
 
     }

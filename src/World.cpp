@@ -10,7 +10,7 @@ World::World()
     std::cin  >> _xSize;
 
     _sum = 0;
-
+    _minedPoints = 0;
     _fields.resize(_ySize);
     for (int y = 0; y < _ySize; y++) {
         _fields[y].resize(_xSize);
@@ -29,7 +29,9 @@ World::World()
 
 World::~World()
 {
-    //dtor
+    for(auto& robot: _robots){
+        delete robot;
+    }
 }
 
 int World::getMaxHeight(){
@@ -70,7 +72,7 @@ void World::renderWorld(){
                        robot->getYPosition() == y &&
                        robot->getZPosition() == z){
 
-                        std::cout << (i==0? "$" : "#");
+                        std::cout << "#";
                         robotHere = true;
                        }
                 }
@@ -107,19 +109,19 @@ RobotType World::selectRobot(){
 
 
 void World::createRobots(){
-        for(int i=0;i<2;i++){
+        for(int i=0;i<5;i++){
                     std::unique_ptr<IController> controller = std::make_unique<AIController>();
                         switch(selectRobot()){
                         case GLUTTON:
-                            _robots.push_back(std::make_unique<GluttonRobot>(std::move(controller),_xSize,_ySize));
+                            _robots.push_back(new GluttonRobot(std::move(controller),_xSize,_ySize));
                             std::cout << "creating glutton" << std::endl;
                             break;
                         case SORTER:
-                            _robots.push_back(std::make_unique<SorterRobot>(std::move(controller),_xSize,_ySize));
+                            _robots.push_back(new SorterRobot(std::move(controller),_xSize,_ySize));
                             std::cout << "creating sorter" << std::endl;
                             break;
                         case COMMUNIST:
-                            _robots.push_back(std::make_unique<CommunistRobot>(std::move(controller),_xSize,_ySize));
+                            _robots.push_back(new CommunistRobot(std::move(controller),_xSize,_ySize));
                             std::cout << "you just created a communist :/" << std::endl;
                             break;
                         }
@@ -136,20 +138,38 @@ void World::spawnRobots(){
                 int y=rand()%5;
                 int x=rand()%5;
             robot->setPosition(_fields,y,x);
+            _minedPoints += _fields[y][x][robot->getZPosition()]->getValue();
             _fields[y][x].pop_back();
         }
 
 }
 
-void World::executeTurn(){
-        for(const auto& robot: _robots){
+void World::digField(std::mutex& m){
+        std::vector<std::thread> workerThreads;
+        for(auto& robot: _robots){
+                workerThreads.push_back(std::thread(&World::executeRobot,this,robot,std::ref(m)));
 
-            robot->move(_fields);
-            robot->dismantle(_fields);
+        }
+
+        for(auto& thread: workerThreads){
+                thread.join();
 
         }
 
 }
+
+void World::executeRobot(Robot* robot, std::mutex& m){
+        while(!this->isEmpty()){
+            m.lock();
+            robot->move(_fields);
+            robot->dismantle(_fields);
+            //this->renderWorld();
+            m.unlock();
+        }
+        std::cout << "Robot/thread collected:" << robot->getPoints() << "points" << std::endl;
+        _minedPoints+= robot->getPoints();
+}
+
 
 
 void World::displayPoints(){
@@ -172,3 +192,13 @@ bool World::isEmpty() {
     }
     return true;
 }
+
+
+int World::getPointSum() const {
+    return _sum;
+}
+
+int World::getMinedPoints() const {
+    return _minedPoints;
+}
+

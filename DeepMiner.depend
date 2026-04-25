@@ -91,7 +91,7 @@
 1777125310 c:\users\user\documents\oop\paralleldeepminer\include\game.h
 	"World.h"
 
-1777129781 c:\users\user\documents\oop\paralleldeepminer\include\world.h
+1777149779 c:\users\user\documents\oop\paralleldeepminer\include\world.h
 	<vector>
 	<random>
 	<memory>
@@ -102,6 +102,8 @@
 	"CommunistRobot.h"
 	<iostream>
 	<algorithm>
+	<thread>
+	<mutex>
 
 1777119814 c:\users\user\documents\oop\paralleldeepminer\include\field.h
 
@@ -138,13 +140,13 @@
 	"AIController.h"
 	<memory>
 
-1777127558 source:c:\users\user\documents\oop\paralleldeepminer\src\communistrobot.cpp
+1777142703 source:c:\users\user\documents\oop\paralleldeepminer\src\communistrobot.cpp
 	"CommunistRobot.h"
 
 1777119814 source:c:\users\user\documents\oop\paralleldeepminer\src\field.cpp
 	"Field.h"
 
-1777131175 source:c:\users\user\documents\oop\paralleldeepminer\src\game.cpp
+1777148418 source:c:\users\user\documents\oop\paralleldeepminer\src\game.cpp
 	"Game.h"
 
 1777129144 source:c:\users\user\documents\oop\paralleldeepminer\src\gluttonrobot.cpp
@@ -156,12 +158,12 @@
 1777119814 source:c:\users\user\documents\oop\paralleldeepminer\src\playercontroller.cpp
 	"PlayerController.h"
 
-1777131346 source:c:\users\user\documents\oop\paralleldeepminer\src\robot.cpp
+1777148590 source:c:\users\user\documents\oop\paralleldeepminer\src\robot.cpp
 	"Robot.h"
 
 1777126827 source:c:\users\user\documents\oop\paralleldeepminer\src\sorterrobot.cpp
 	"SorterRobot.h"
 
-1777129975 source:c:\users\user\documents\oop\paralleldeepminer\src\world.cpp
+1777150087 source:c:\users\user\documents\oop\paralleldeepminer\src\world.cpp
 	"World.h"
 

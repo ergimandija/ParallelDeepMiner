@@ -10,8 +10,8 @@
 #include "CommunistRobot.h"
 #include <iostream>
 #include <algorithm>
-
-
+#include <thread>
+#include <mutex>
 class World
 {
     public:
@@ -20,23 +20,28 @@ class World
         virtual ~World();
         void renderWorld();
         int getMaxHeight();
-        void executeTurn();
+        void executeRobot(Robot* robot, std::mutex& m);
         void createRobots();
         void spawnRobots();
         void displayPoints();
         RobotType selectRobot();
         bool isEmpty();
         int getMaxRobotHeight();
-
+        int getPointSum() const;
+        int getMinedPoints() const;
+        void digField(std::mutex& m);
 
     protected:
 
     private:
+
+
         int _ySize;
         int _xSize;
         int _sum;
+        int _minedPoints;
         std::vector<std::vector<std::vector<std::unique_ptr<Field>>>> _fields;
-        std::vector<std::unique_ptr<Robot>> _robots;
+        std::vector<Robot*> _robots;
 
 };
 
