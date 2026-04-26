@@ -23,6 +23,7 @@ void Game::start() {
        // _world.renderWorld();
         if(_world.isEmpty()){
             auto endTime = std::chrono::steady_clock::now();
+            _world.renderWorld();
             std::cout << "Game is Finished!" << std::endl;
             _isFinished = true;
             std::cout << "Max Points:" << _world.getPointSum() << std::endl;

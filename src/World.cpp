@@ -70,7 +70,8 @@ void World::renderWorld(){
                      const auto& robot = _robots[i];
                     if(robot->getXPosition() == x &&
                        robot->getYPosition() == y &&
-                       robot->getZPosition() == z){
+                       robot->getZPosition() == z &&
+                       robot->isAlive()){
 
                         std::cout << "#";
                         robotHere = true;
@@ -135,8 +136,8 @@ void World::createRobots(){
 
 void World::spawnRobots(){
         for(const auto& robot: _robots){
-                int y=rand()%5;
-                int x=rand()%5;
+                int y=rand()%_ySize;
+                int x=rand()%_xSize;
             robot->setPosition(_fields,y,x);
             _minedPoints += _fields[y][x][robot->getZPosition()]->getValue();
             _fields[y][x].pop_back();
@@ -158,11 +159,26 @@ void World::digField(std::mutex& m){
 
 }
 
+
+void World::exterMinateEnemiesOf(Robot* r){
+        for(const auto& robot: _robots){
+            if(robot != r
+               && r->getXPosition() == robot->getXPosition()
+               && r->getYPosition() == robot->getYPosition()
+               && r->getZPosition() == robot->getZPosition()){
+                robot->damage();
+
+
+               }
+        }
+
+}
 void World::executeRobot(Robot* robot, std::mutex& m){
         auto startTime = std::chrono::steady_clock::now();
-        while(!this->isEmpty()){
+        while(!this->isEmpty() && robot->isAlive()){
             m.lock();
             robot->move(_fields);
+            this->exterMinateEnemiesOf(robot);
             robot->dismantle(_fields);
             //this->renderWorld();
             m.unlock();

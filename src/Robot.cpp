@@ -6,6 +6,8 @@ Robot::Robot(std::unique_ptr<IController> controller, int xBorder, int yBorder)
     _yBorder  = yBorder;
     _controller = std::move(controller);
     _points = 0;
+    _health = 10;
+
     //_canDismantle = true;
 }
 
@@ -20,6 +22,7 @@ int Robot::getXPosition(){
 
 }
 
+
 int Robot::getYPosition(){
     return  _y;
 }
@@ -28,7 +31,17 @@ int Robot::getZPosition(){
     return _z;
 }
 
+void Robot::damage(){
+    _health--;
 
+}
+
+bool Robot::isAlive(){
+     if(_health <= 0){
+        return false;
+    }
+    return true;
+}
 
 void Robot::setPosition(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields,int y,int x){
     _x=x;

@@ -32,7 +32,7 @@ class World
         int getPointSum() const;
         int getMinedPoints() const;
         void digField(std::mutex& m);
-
+        void exterMinateEnemiesOf(Robot* r);
     protected:
 
     private:

@@ -9,6 +9,7 @@
 #include <memory>
 #include <algorithm>
 #include <numeric>
+#include <mutex>
 
 enum RobotType {
     GLUTTON, SORTER, COMMUNIST
@@ -32,13 +33,15 @@ class Robot
         int getYPosition();
         int getZPosition();
         int getPoints();
-
+        void damage();
+        bool isAlive();
     protected:
 
         int _x,_y,_z;
          int _points;
     private:
         int _xBorder, _yBorder;
+        int _health;
         std::unique_ptr<IController> _controller;
 
 
