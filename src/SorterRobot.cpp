@@ -15,7 +15,8 @@ void SorterRobot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<
 {
 
     if(fields[_y][_x].empty()) return;
-    //_z = static_cast<int>(fields[_y][_x].size()) - 1;
+    int colSize = static_cast<int>(fields[_y][_x].size());
+    _z = (colSize > 0) ? colSize - 1 : 0;
 
     std::sort(fields[_y][_x].begin(),fields[_y][_x].end(),[](std::unique_ptr<Field>& fieldA,std::unique_ptr<Field>& fieldB)
     {

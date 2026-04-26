@@ -21,7 +21,7 @@ class Robot
     public:
         Robot(std::unique_ptr<IController> controller,int xBorder,int yBorder);
         virtual ~Robot();
-        void move(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields);
+        void move();
         virtual void dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields)=0;
         void searchEffect();
         void moveLeft();

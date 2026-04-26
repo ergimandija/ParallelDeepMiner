@@ -14,7 +14,8 @@ CommunistRobot::~CommunistRobot()
 void CommunistRobot::dismantle(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields)
 {
     if(fields[_y][_x].empty()) return;
-
+    int colSize = static_cast<int>(fields[_y][_x].size());
+    _z = (colSize > 0) ? colSize - 1 : 0;
 
 
     _points += fields[_y][_x][_z]->getValue();

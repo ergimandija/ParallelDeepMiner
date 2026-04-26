@@ -176,8 +176,9 @@ void World::exterMinateEnemiesOf(Robot* r){
 void World::executeRobot(Robot* robot, std::mutex& m){
         auto startTime = std::chrono::steady_clock::now();
         while(!this->isEmpty() && robot->isAlive()){
+
+            robot->move();
             m.lock();
-            robot->move(_fields);
             this->exterMinateEnemiesOf(robot);
             robot->dismantle(_fields);
             //this->renderWorld();

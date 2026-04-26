@@ -108,7 +108,7 @@
 
 1777119814 c:\users\user\documents\oop\paralleldeepminer\include\field.h
 
-1777193850 c:\users\user\documents\oop\paralleldeepminer\include\robot.h
+1777196041 c:\users\user\documents\oop\paralleldeepminer\include\robot.h
 	"Field.h"
 	"IController.h"
 	"PlayerController.h"
@@ -142,7 +142,7 @@
 	"AIController.h"
 	<memory>
 
-1777142703 source:c:\users\user\documents\oop\paralleldeepminer\src\communistrobot.cpp
+1777195958 source:c:\users\user\documents\oop\paralleldeepminer\src\communistrobot.cpp
 	"CommunistRobot.h"
 
 1777119814 source:c:\users\user\documents\oop\paralleldeepminer\src\field.cpp
@@ -151,7 +151,7 @@
 1777194622 source:c:\users\user\documents\oop\paralleldeepminer\src\game.cpp
 	"Game.h"
 
-1777129144 source:c:\users\user\documents\oop\paralleldeepminer\src\gluttonrobot.cpp
+1777195993 source:c:\users\user\documents\oop\paralleldeepminer\src\gluttonrobot.cpp
 	"GluttonRobot.h"
 
 1777119814 source:c:\users\user\documents\oop\paralleldeepminer\src\icontroller.cpp
@@ -160,12 +160,12 @@
 1777119814 source:c:\users\user\documents\oop\paralleldeepminer\src\playercontroller.cpp
 	"PlayerController.h"
 
-1777195007 source:c:\users\user\documents\oop\paralleldeepminer\src\robot.cpp
+1777196033 source:c:\users\user\documents\oop\paralleldeepminer\src\robot.cpp
 	"Robot.h"
 
-1777126827 source:c:\users\user\documents\oop\paralleldeepminer\src\sorterrobot.cpp
+1777196007 source:c:\users\user\documents\oop\paralleldeepminer\src\sorterrobot.cpp
 	"SorterRobot.h"
 
-1777194701 source:c:\users\user\documents\oop\paralleldeepminer\src\world.cpp
+1777196054 source:c:\users\user\documents\oop\paralleldeepminer\src\world.cpp
 	"World.h"
 

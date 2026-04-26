@@ -6,7 +6,7 @@ Robot::Robot(std::unique_ptr<IController> controller, int xBorder, int yBorder)
     _yBorder  = yBorder;
     _controller = std::move(controller);
     _points = 0;
-    _health = 10;
+    _health = 100;
 
     //_canDismantle = true;
 }
@@ -76,7 +76,7 @@ void Robot::moveBackward(){
 }
 
 
-void Robot::move(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& fields){
+void Robot::move(){
 
     switch(_controller->pickDirection()){
     case 'w':
@@ -96,8 +96,7 @@ void Robot::move(std::vector<std::vector<std::vector<std::unique_ptr<Field>>>>& 
 
     }
 
-     int colSize = static_cast<int>(fields[_y][_x].size());
-    _z = (colSize > 0) ? colSize - 1 : 0;
+
 }
 
 
