@@ -159,6 +159,7 @@ void World::digField(std::mutex& m){
 }
 
 void World::executeRobot(Robot* robot, std::mutex& m){
+        auto startTime = std::chrono::steady_clock::now();
         while(!this->isEmpty()){
             m.lock();
             robot->move(_fields);
@@ -166,7 +167,11 @@ void World::executeRobot(Robot* robot, std::mutex& m){
             //this->renderWorld();
             m.unlock();
         }
-        std::cout << "Robot/thread collected:" << robot->getPoints() << "points" << std::endl;
+        auto endTime = std::chrono::steady_clock::now();
+        auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+        m.lock();
+        std::cout << "Robot/thread collected:" << robot->getPoints() << " points, and lasted: " << elapsedTime << "ms" << std::endl;
+        m.unlock();
         _minedPoints+= robot->getPoints();
 }
 
